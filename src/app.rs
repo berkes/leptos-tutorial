@@ -1,5 +1,7 @@
 use leptos::*;
 
+use crate::progress_bar::ProgressBar;
+
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
     let (count, set_count) = create_signal(cx, 0);
@@ -16,23 +18,16 @@ pub fn App(cx: Scope) -> impl IntoView {
             { move || count.get() }
         </button>
         <br/>
-        <progress
-            max="50"
-            // signals are functions, so this <=> `move || count.get()`
-            value=count
-        />
+
+        <ProgressBar progress=count/>
         <br/>
-        <progress
-            max="50"
-            // signals are functions, so this <=> `move || count.get()`
-            value=double_count
-        />
+        <ProgressBar progress=double_count/>
        <p>
-            <strong>"Count"</strong>
+            <strong>"Count: "</strong>
             {count}
         </p>
        <p>
-            <strong>"Double count"</strong>
+            <strong>"Double count: "</strong>
             {double_count}
         </p>
     }

@@ -21,7 +21,7 @@ pub fn App(cx: Scope) -> impl IntoView {
 
         <ProgressBar progress=count/>
         <br/>
-        <ProgressBar progress=double_count/>
+        <ProgressBar progress=Signal::derive(cx, double_count) />
        <p>
             <strong>"Count: "</strong>
             {count}

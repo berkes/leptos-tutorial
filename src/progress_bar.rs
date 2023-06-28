@@ -1,13 +1,15 @@
 use leptos::*;
 
+/// Shows progress towards a goal.
 #[component]
-pub fn ProgressBar<F>(
+pub fn ProgressBar(
     cx: Scope,
     #[prop(default = 30)]
+    /// The goal to reach.
     max: u16,
-    progress: F) -> impl IntoView 
-    where
-        F: Fn() -> i32 + 'static,
+    #[prop(into)]
+    /// The current progress towards the goal.
+    progress: Signal<i32>) -> impl IntoView 
 {
 
     view! { cx,

@@ -1,4 +1,4 @@
-use leptos::{html::Input, ev::SubmitEvent, *};
+use leptos::{ev::SubmitEvent, html::Input, *};
 
 /// Shows progress towards a goal.
 #[component]

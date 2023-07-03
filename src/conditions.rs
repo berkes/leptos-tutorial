@@ -19,10 +19,7 @@ fn Small(cx: Scope) -> impl IntoView {
 }
 
 #[component]
-pub fn Conditions(
-    cx: Scope,
-    ) -> impl IntoView {
-
+pub fn Conditions(cx: Scope) -> impl IntoView {
     let (value, set_value) = create_signal(cx, 0);
     let is_odd = move || value() & 1 == 1;
 
@@ -34,22 +31,22 @@ pub fn Conditions(
         }
     };
 
-    let spoken = move || {
-        match value() {
-            0 => "Zero",
-            1 => "One",
-            42 => "Fourtytwo",
-            _n if is_odd()  => "Odd",
-            _ => "Even",
-        }
+    let spoken = move || match value() {
+        0 => "Zero",
+        1 => "One",
+        42 => "Fourtytwo",
+        _n if is_odd() => "Odd",
+        _ => "Even",
     };
 
-    let size = move || if value() > 5 {
-        log!("{}: rendering big", value());
-        "big"
-    } else {
-        log!("{}: rendering small", value());
-        "small"
+    let size = move || {
+        if value() > 5 {
+            log!("{}: rendering big", value());
+            "big"
+        } else {
+            log!("{}: rendering small", value());
+            "small"
+        }
     };
 
     view! { cx,

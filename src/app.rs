@@ -1,8 +1,8 @@
 use leptos::*;
 
 use crate::conditions::Conditions;
-use crate::numeric_input::NumericInput;
 use crate::name::NameForm;
+use crate::numeric_input::NumericInput;
 use crate::progress_bar::ProgressBar;
 
 #[component]

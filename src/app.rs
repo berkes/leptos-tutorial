@@ -1,8 +1,9 @@
 use leptos::*;
 
-use crate::progress_bar::ProgressBar;
-use crate::name::NameForm;
 use crate::conditions::Conditions;
+use crate::numeric_input::NumericInput;
+use crate::name::NameForm;
+use crate::progress_bar::ProgressBar;
 
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
@@ -38,12 +39,14 @@ pub fn App(cx: Scope) -> impl IntoView {
         <h1>"Counter Buttons"</h1>
 
         <NameForm/>
+        <hr/>
 
+        <NumericInput/>
         <hr/>
 
         <Conditions/>
-
         <hr/>
+
         <ul>{counter_buttons}</ul>
     }
 }

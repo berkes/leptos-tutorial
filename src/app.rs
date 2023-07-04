@@ -6,9 +6,27 @@ use crate::numeric_input::NumericInput;
 use crate::progress_bar::ProgressBar;
 
 #[component]
+fn Wrapper(cx: Scope) -> impl IntoView {
+    view! {cx, <div style="border: 1px solid black; padding: 1em;"><Toggler/></div>}
+}
+
+#[component]
+fn Toggler(cx: Scope) -> impl IntoView {
+    let setter = use_context::<WriteSignal<bool>>(cx).expect("to have found the setter provided");
+    view! { cx,
+        <button on:click=move |_| setter.update(|toggled| *toggled = !*toggled) >
+            "Toggle"
+        </button>
+    }
+}
+
+#[component]
 pub fn App(cx: Scope) -> impl IntoView {
     // create a list of N signals
     let counters = (1..=40).map(|idx| create_signal(cx, idx));
+
+    let (toggled, set_toggled) = create_signal(cx, false);
+    provide_context(cx, set_toggled);
 
     // each item manages a reactive view
     // but the list itself will never change
@@ -45,6 +63,10 @@ pub fn App(cx: Scope) -> impl IntoView {
         <hr/>
 
         <Conditions/>
+        <hr/>
+
+        <p>"Toggled? " {toggled}</p>
+        <Wrapper/>
         <hr/>
 
         <ul>{counter_buttons}</ul>

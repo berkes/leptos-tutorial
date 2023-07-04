@@ -21,6 +21,27 @@ fn Toggler(cx: Scope) -> impl IntoView {
 }
 
 #[component]
+fn TakesChildren<F, IV>(cx: Scope, render_prop: F, children: Children) -> impl IntoView
+where
+    F: Fn(Scope) -> IV,
+    IV: IntoView,
+{
+    let children = children(cx).nodes
+        .into_iter()
+        .map(|child| view! {cx, <li>{child}</li>})
+        .collect_view(cx);
+
+    view! { cx,
+        <div>
+            <h2>"Render Prop"</h2>
+            {render_prop(cx)}
+            <h2>"Children"</h2>
+            <ul>{children}</ul>
+        </div>
+    }
+}
+
+#[component]
 pub fn App(cx: Scope) -> impl IntoView {
     // create a list of N signals
     let counters = (1..=40).map(|idx| create_signal(cx, idx));
@@ -55,6 +76,12 @@ pub fn App(cx: Scope) -> impl IntoView {
 
     view! { cx,
         <h1>"Counter Buttons"</h1>
+
+        <TakesChildren render_prop=|_| view! { cx, <p>"Hi from render"</p> }>
+          "I am a child"
+          <strong>" mee too"</strong>
+        </TakesChildren>
+        <hr/>
 
         <NameForm/>
         <hr/>

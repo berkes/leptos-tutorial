@@ -13,9 +13,13 @@ fn Wrapper(cx: Scope) -> impl IntoView {
 #[component]
 fn Toggler(cx: Scope) -> impl IntoView {
     let setter = use_context::<WriteSignal<bool>>(cx).expect("to have found the setter provided");
+    let getter = use_context::<ReadSignal<bool>>(cx).expect("to have found the getter provided");
+
+    let color = create_memo(cx, move |_| if getter() { "green" } else { "red" });
+
     view! { cx,
-        <button on:click=move |_| setter.update(|toggled| *toggled = !*toggled) >
-            "Toggle"
+        <button style:color=color on:click=move |_| setter.update(|toggled| *toggled = !*toggled) >
+            "Make it " { getter }
         </button>
     }
 }
@@ -26,7 +30,8 @@ where
     F: Fn(Scope) -> IV,
     IV: IntoView,
 {
-    let children = children(cx).nodes
+    let children = children(cx)
+        .nodes
         .into_iter()
         .map(|child| view! {cx, <li>{child}</li>})
         .collect_view(cx);
@@ -48,6 +53,7 @@ pub fn App(cx: Scope) -> impl IntoView {
 
     let (toggled, set_toggled) = create_signal(cx, false);
     provide_context(cx, set_toggled);
+    provide_context(cx, toggled);
 
     // each item manages a reactive view
     // but the list itself will never change
